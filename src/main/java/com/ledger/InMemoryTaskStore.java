@@ -3,10 +3,9 @@ package com.ledger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 
 // @Service is another Spring label, like @RestController. It says "Spring, create one of these and manage it." @RestController is for classes that handle web requests, and @Service is for classes that hold data or logic.
-@Service
+// @Service
 public class InMemoryTaskStore implements TaskStore {
 
     private final List<Task> tasks = new ArrayList<>(List.of(
