@@ -27,12 +27,12 @@ public class TaskController {
         this.store=store;
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/tasks/")
     public List<Task> getTasks() {
         return store.findAll();
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/tasks/{id}/")
     public Task getTask(@PathVariable int id) { // this will take the params id from the GET URL
         Task t= store.findById(id);
         if(t==null){
@@ -43,13 +43,13 @@ public class TaskController {
 
  
     
-    @PostMapping("/tasks")
+    @PostMapping("/tasks/")
     public Task createTask(@Valid @RequestBody CreateTaskRecord task){
         Task t =store.save(task);
         return t;
     }
 
-    @DeleteMapping("/tasks/{id}")
+    @DeleteMapping("/tasks/{id}/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable int id){
         boolean status=store.delete(id);
@@ -60,7 +60,7 @@ public class TaskController {
 
     // @Valid tells Spring: "before you call my method, check the rules written on
     // this object. If any rule fails, stop and return a 400."
-    @PutMapping("tasks/{id}")
+    @PutMapping("tasks/{id}/")
     public Task updateTask(@Valid @PathVariable int id, @RequestBody CreateTaskRecord request) {
         Task t=store.update(id, request);
         if(t==null){

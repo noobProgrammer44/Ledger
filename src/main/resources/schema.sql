@@ -4,3 +4,9 @@ CREATE TABLE IF NOT EXISTS tasks(
     title TEXT NOT NULL,
     done  BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id            SERIAL PRIMARY KEY,
+    email         TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL
+);
