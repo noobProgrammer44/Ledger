@@ -14,10 +14,12 @@ public class AuthController {
 
     private final UserStore userStore;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthController(UserStore userStore, PasswordEncoder passwordEncoder) {
+    public AuthController(UserStore userStore, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userStore = userStore;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/signup")
@@ -29,4 +31,16 @@ public class AuthController {
         User saved = userStore.save(request.email(), hash);
         return new UserResponse(saved.id(), saved.email());
     }
+
+    @PostMapping("/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+        User u = userStore.findByEmail(request.email());
+
+        if (u == null || !passwordEncoder.matches(request.password(), u.passwordHash())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
+        }
+
+        return new LoginResponse(jwtService.createToken(u));
+    }
+
 }
